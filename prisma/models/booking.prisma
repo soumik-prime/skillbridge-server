@@ -1,0 +1,24 @@
+enum TutoringSessionStatus {
+    OPEN
+    BOOKED
+    CANCELED
+}
+
+model Booking {
+    id          String          @id @default(uuid())
+    tutorId     String
+    tutor       TutorProfile    @relation(fields: [tutorId], references: [id], onDelete: Cascade)
+    studentID   String?
+    student     StudentProfile? @relation(fields: [studentID], references: [id], onDelete: Cascade)
+    studentNote String
+    TutorNote   String
+    start       DateTime
+    end         DateTime
+    createdAt   DateTime        @default(now())
+    updatedAt   DateTime        @updatedAt
+    review      Review?
+
+    @@index([tutorId])
+    @@index([studentID])
+    @@map("bookings")
+}
