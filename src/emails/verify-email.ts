@@ -4,7 +4,7 @@ export const emailVerificationTemplete = {
   text: (name: string, url: string) => {
     return `
 Hello, ${name}! Thanks for signing up. Please verify your email to get started: ${url}
-This link expires in 24 hours. If you didn't sign up, ignore this email.
+This link expires in 1 hour. If you didn't sign up, ignore this email.
 - The SkillBridge Team`;
   },
 
@@ -242,7 +242,7 @@ This link expires in 24 hours. If you didn't sign up, ignore this email.
         <div class="security-note">
           <p>
             <strong>⚠️ Important:</strong> If you didn’t create this account,
-            ignore this email. The link expires in 24 hours.
+            ignore this email. The link expires in 1 hour.
           </p>
         </div>
 

@@ -3,7 +3,7 @@ export const resetpasswordTemplete = {
   title: "Reset Your SkillBridge Password!",
 
   text: (name: string, url: string) => {
-    return `Hello, ${name}! Thanks for signing up. Please verify your email to get started: ${url} This link expires in 24 hours. If you didn't sign up, you can safely ignore this email.
+    return `Hello, ${name}! Thanks for signing up. Please verify your email to get started: ${url} This link expires in 15 Minutes. If you didn't sign up, you can safely ignore this email.
 — The SkillBridge Team
     `;
   },
