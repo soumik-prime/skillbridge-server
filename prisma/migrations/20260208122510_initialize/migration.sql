@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "UserRole" AS ENUM ('ADMIN', 'TUTOR', 'STUDENT');
+CREATE TYPE "UserRole" AS ENUM ('ADMIN', 'TUTOR', 'STUDENT', 'GUEST');
 
 -- CreateEnum
 CREATE TYPE "TutoringSessionStatus" AS ENUM ('OPEN', 'BOOKED', 'CANCELED');
@@ -11,9 +11,10 @@ CREATE TABLE "user" (
     "email" TEXT NOT NULL,
     "emailVerified" BOOLEAN NOT NULL DEFAULT false,
     "image" TEXT,
-    "role" "UserRole" NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "role" "UserRole" NOT NULL DEFAULT 'GUEST',
+    "isBanned" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "user_pkey" PRIMARY KEY ("id")
 );
@@ -102,7 +103,6 @@ CREATE TABLE "reviews" (
 -- CreateTable
 CREATE TABLE "studentprofiles" (
     "id" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
     "bios" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -113,7 +113,6 @@ CREATE TABLE "studentprofiles" (
 -- CreateTable
 CREATE TABLE "tutorprofiles" (
     "id" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
     "categoryId" TEXT NOT NULL,
     "bios" TEXT NOT NULL,
     "affiliation" TEXT NOT NULL,
@@ -152,12 +151,6 @@ CREATE UNIQUE INDEX "categories_name_key" ON "categories"("name");
 CREATE UNIQUE INDEX "reviews_bookingId_key" ON "reviews"("bookingId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "studentprofiles_userId_key" ON "studentprofiles"("userId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "tutorprofiles_userId_key" ON "tutorprofiles"("userId");
-
--- CreateIndex
 CREATE INDEX "tutorprofiles_categoryId_idx" ON "tutorprofiles"("categoryId");
 
 -- AddForeignKey
@@ -176,10 +169,10 @@ ALTER TABLE "bookings" ADD CONSTRAINT "bookings_studentID_fkey" FOREIGN KEY ("st
 ALTER TABLE "reviews" ADD CONSTRAINT "reviews_bookingId_fkey" FOREIGN KEY ("bookingId") REFERENCES "bookings"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "studentprofiles" ADD CONSTRAINT "studentprofiles_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "studentprofiles" ADD CONSTRAINT "studentprofiles_id_fkey" FOREIGN KEY ("id") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "tutorprofiles" ADD CONSTRAINT "tutorprofiles_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "tutorprofiles" ADD CONSTRAINT "tutorprofiles_id_fkey" FOREIGN KEY ("id") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "tutorprofiles" ADD CONSTRAINT "tutorprofiles_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "categories"("id") ON DELETE CASCADE ON UPDATE CASCADE;

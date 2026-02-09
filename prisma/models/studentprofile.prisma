@@ -1,7 +1,6 @@
 model StudentProfile {
-    id        String    @id @default(uuid())
-    userId    String    @unique
-    user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    id        String    @id
+    user      User      @relation(fields: [id], references: [id], onDelete: Cascade)
     bios      String
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt

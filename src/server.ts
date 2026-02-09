@@ -1,19 +1,19 @@
 import app from "./app";
 import env_variable from "./config/env";
-import { prisma } from "./lib/pisma"
+import { prisma } from "./lib/prisma";
 
-const server = async() => {
-  try{
+const starServer = async () => {
+  try {
     const { port } = env_variable;
     await prisma.$connect();
     app.listen(port, () => {
       console.log(`Server is running in port: ${port}`);
-    })
-  } catch(err){
+    });
+  } catch (err) {
     await prisma.$disconnect();
     console.error("Server Crashed: ", err);
     process.exit(1);
   }
-}
+};
 
-server();
+starServer();
