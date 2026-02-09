@@ -4,6 +4,7 @@ import { toNodeHandler } from "better-auth/node";
 import { auth } from "./lib/auth";
 import logger from "./middlewares/logger";
 import { auth as abc } from './middlewares/auth';
+import { postRouter } from "./modules/profile/profile.route";
 
 const app: Application = express();
 
@@ -11,9 +12,11 @@ const app: Application = express();
 app.use(express.json());
 app.use(logger);
 
-app.get('/abc', abc());
 // Better-Auth Mount Handler
 app.all("/api/auth/*splat", toNodeHandler(auth));
+
+// All Profile Routes
+app.all("/api/v1/profile", postRouter);
 
 
 // Not Found Route

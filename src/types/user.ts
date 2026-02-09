@@ -5,6 +5,5 @@ export type User = {
   name: string;
   email: string;
   role: UserRole;
-  isBanned: boolean;
-  emailVerified: boolean;
+  isBanned: boolean
 }
