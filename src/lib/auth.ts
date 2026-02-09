@@ -90,4 +90,10 @@ export const auth = betterAuth({
       clientSecret: env_variable.google_client_secret,
     },
   },
+  account: {
+    accountLinking: {
+      enabled: true,
+      trustedProviders: ["google"],
+    },
+  },
 });
