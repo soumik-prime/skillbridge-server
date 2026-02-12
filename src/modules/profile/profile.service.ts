@@ -1,15 +1,68 @@
 import { prisma } from "../../lib/prisma";
 
 export const profileServices = {
-  getStudentProfileById: async (id: string) => {
-    return await prisma.studentProfile.findUnique({
-      where: {
-        id: id,
-      },
+  // ! CREATE SERVICES
+  // Create Student Profile
+  createStudentProfile: async (payload: { id: string; bios: string }) => {
+    return await prisma.studentProfile.create({
+      data: { ...payload },
+    });
+  },
+  // Create Tutor Profile
+  createTutorProfile: async (payload: {
+    id: string;
+    categoryId: string;
+    bios: string;
+    affiliation: string;
+    experience: number;
+  }) => {
+    return await prisma.tutorProfile.create({
+      data: { ...payload },
     });
   },
 
-  createStudentProfileByid: async() => {
-    
-  }
+  // ! GET SERVICES
+  // Get Student Profile
+  getStudentProfileById: async (id: string) => {
+    return await prisma.studentProfile.findUnique({
+      where: { id },
+    });
+  },
+  // Get Tutor Profile
+  getTutorProfileById: async (id: string) => {
+    return await prisma.tutorProfile.findUnique({
+      where: { id },
+    });
+  },
+
+  // ! UPDATE SERVICES
+  // Update Student Profile
+  upsertStudentProfileById: async (
+    id: string,
+    payload: {
+      bios?: string;
+    },
+  ) => {
+    // console.log(payload);
+    return await prisma.studentProfile.update({
+      where: { id },
+      data: { id, ...payload },
+    });
+  },
+  // Update Tutor Profile
+  updateTutorProfileById: async (
+    id: string,
+    payload: {
+      categoryId?: string;
+      bios?: string;
+      affiliation?: string;
+      experience?: number;
+    },
+  ) => {
+    return await prisma.tutorProfile.update({
+      where: { id },
+      data: { id, ...payload },
+    });
+  },
+
 };

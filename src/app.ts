@@ -3,8 +3,7 @@ import notfound from "./middlewares/not-found"
 import { toNodeHandler } from "better-auth/node";
 import { auth } from "./lib/auth";
 import logger from "./middlewares/logger";
-import { auth as abc } from './middlewares/auth';
-import { postRouter } from "./modules/profile/profile.route";
+import { profileRouter } from "./modules/profile/profile.route";
 
 const app: Application = express();
 
@@ -15,8 +14,8 @@ app.use(logger);
 // Better-Auth Mount Handler
 app.all("/api/auth/*splat", toNodeHandler(auth));
 
-// All Profile Routes
-app.all("/api/v1/profile", postRouter);
+// Profile Router
+app.use("/api/v1/profile", profileRouter);
 
 
 // Not Found Route

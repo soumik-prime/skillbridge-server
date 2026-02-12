@@ -63,27 +63,28 @@ export const auth = betterAuth({
       },
     },
   },
-  emailVerification: {
-    sendOnSignIn: true,
-    autoSignInAfterVerification: true,
-    expiresIn: 3600,
-    sendVerificationEmail: async ({ user, url, token }, request) => {
-      try {
-        const verificationURL = `${env_variable.frontend_url}/verify-email?token=${token}`;
-        const info = await transporter.sendMail({
-          from: '"Skill Bridge" <soumik0001@gmail.com>',
-          to: user.email,
-          subject: emailVerificationTemplete.title,
-          text: emailVerificationTemplete.text(user.name, verificationURL),
-          html: emailVerificationTemplete.html(user.name, verificationURL),
-        });
-        console.log("verification mail sent, ", info);
-      } catch (err) {
-        console.log("error");
-      }
-      // TODO: error handling
-    },
-  },
+  // Email Disabled Verification for development purporse
+  // emailVerification: {
+  //   sendOnSignIn: true,
+  //   autoSignInAfterVerification: true,
+  //   expiresIn: 3600,
+  //   sendVerificationEmail: async ({ user, url, token }, request) => {
+  //     try {
+  //       const verificationURL = `${env_variable.frontend_url}/verify-email?token=${token}`;
+  //       const info = await transporter.sendMail({
+  //         from: '"Skill Bridge" <soumik0001@gmail.com>',
+  //         to: user.email,
+  //         subject: emailVerificationTemplete.title,
+  //         text: emailVerificationTemplete.text(user.name, verificationURL),
+  //         html: emailVerificationTemplete.html(user.name, verificationURL),
+  //       });
+  //       console.log("verification mail sent, ", info);
+  //     } catch (err) {
+  //       console.log("error");
+  //     }
+  //     // TODO: error handling
+  //   },
+  // },
   socialProviders: {
     google: {
       clientId: env_variable.google_client_id,

@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { auth as betterAuth } from "../lib/auth";
 import { UserRole } from "../../generated/prisma/enums";
-import { User } from "../types/user";
 
 export const auth = (...roles: UserRole[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
@@ -14,10 +13,6 @@ export const auth = (...roles: UserRole[]) => {
         // todo: error handling
         res.status(401).send("Unauthorized");
         return;
-      }
-
-      if (session.user.role === UserRole.GUEST) {
-        res.send("Choose your role!");
       }
 
       if (!session.user.emailVerified) {
@@ -33,12 +28,17 @@ export const auth = (...roles: UserRole[]) => {
           name: session.user.name,
           email: session.user.email,
           role: session.user.role as UserRole,
-          isBanned: session.user.isBanned
+          isBanned: session.user.isBanned,
         };
         next();
       }
-
-      console.log(session);
+      
+      if (session.user.role === UserRole.GUEST) {
+        return res.status(401).json({
+          ok: false,
+          message: "Are you a student or tutor?",
+        });
+      }
     } catch (err) {
       // todo------
       res.send("error");

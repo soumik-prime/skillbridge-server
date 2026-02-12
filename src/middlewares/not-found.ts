@@ -4,7 +4,7 @@ export default () => (req: Request, res: Response) => {
   // console.log(req);
   res.status(404).json({
     ok: false,
-    message: "Invalid Path",
+    message: "(g)Invalid Path",
     path: req.originalUrl,
     date: Date()
   })
