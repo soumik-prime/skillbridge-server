@@ -105,6 +105,25 @@ export const profileController = {
       // todo
     }
   },
+  // Get All Student Profiles
+  getAllStudentProfile: async (req: Request, res: Response) => {
+    try {
+      const result = await profileServices.getAllStudentProfile()
+      res.status(200).json(result);
+    } catch (err) {
+      // todo
+    }
+  },
+  // Get All Tutor Profile
+  getAllTutorProfile: async (req: Request, res: Response) => {
+    try {
+      const result = await profileServices.getAllTutorProfile()
+      res.status(200).json(result);
+    } catch (err) {
+      // todo
+    }
+  },
+
 
   // ! UPDATE CONTROLLERS
   // Update Own Profile Data

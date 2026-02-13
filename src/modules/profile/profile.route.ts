@@ -25,6 +25,14 @@ router.patch(
 );
 
 // ! ALL PROFILES ROUTES
+// All Students Data
+router.get('/students',
+  profileController.getAllStudentProfile
+)
+// All Tutors Data
+router.get('/tutors',
+  profileController.getAllTutorProfile
+)
 
 // ! SPECIFIC PROFILE ROUTES
 // Student Profile

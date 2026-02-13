@@ -34,6 +34,14 @@ export const profileServices = {
       where: { id },
     });
   },
+  // Get All Student Profiles
+  getAllStudentProfile: async () => {
+    return await prisma.studentProfile.findMany();
+  },
+  // Get All Tutor Profile
+  getAllTutorProfile: async () => {
+    return await prisma.tutorProfile.findMany();
+  },
 
   // ! UPDATE SERVICES
   // Update Student Profile
@@ -64,5 +72,4 @@ export const profileServices = {
       data: { id, ...payload },
     });
   },
-
 };
