@@ -1,50 +1,35 @@
-import { Request, Response } from "express";
-import { UserRole } from "../../../generated/prisma/enums";
-import { categoryServices } from "./category.service";
+import express, { Router } from 'express';
+import { auth } from '../../middlewares/auth';
+import { UserRole } from '../../../generated/prisma/enums';
+import { categoryController } from './category.controller';
 
-export const profileController = {
-  // ! CREATE CONTROLLERS
-  createCategory: async(req: Request, res: Response) => {
-    try{
-      const { name } = req.body;
-      const result = await categoryServices.createCategory(name);
-      return res.status(200).json(result);
-    } catch (error) {
-      // TODO ------
-    }
-  },
+const router = express.Router();
 
-  // ! GET CONTROLLERS
-  getAllCategory: async(req: Request, res: Response) => {
-    try{
-      const result = await categoryServices.getAllCategories();
-      return res.status(200).json(result);
-    } catch (error) {
-      // TODO ------
-    }
-  },
+// ! Create a Category
+router.post(
+  '/',
+  auth(UserRole.ADMIN),
+  categoryController.createCategory
+)
 
-  // ! UPDATE CONTROLLERS
-  updateCategoryById: async(req: Request, res: Response) => {
-    try{
-      const { categoryId } = req.params;
-      const { name } = req.body;
-      const result = await categoryServices.updateCategoryById(categoryId as string, name);
-      return res.status(200).json(result);
-    } catch (error) {
-      // TODO ------
-    }
-  },
+// ! All Categories Route
+router.get(
+  '/all',
+ categoryController.getAllCategories
+)
 
-  // ! DELETE CONTROLLERS
-  deleteCategoryById: async(req: Request, res: Response) => {
-    try{
-      const { categoryId } = req.params;
-      const result = await categoryServices.deleteCategoryById(categoryId as string);
-      return res.status(200).json(result);
-    } catch (error) {
-      // TODO ------
-    }
-  },
+// ! Update a Specific Category By Id
+router.patch(
+  '/:categoryId',
+  auth(UserRole.ADMIN),
+  categoryController.updateCategoryById
+)
 
-}
+// ! Delete a Specific Category
+router.delete(
+  ':categoryId',
+  auth(UserRole.ADMIN),
+  categoryController.deleteCategoryById
+)
+
+export const categoryRouter: Router = router;
